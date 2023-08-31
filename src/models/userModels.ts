@@ -24,6 +24,9 @@ export class Usuarios {
     senha: string
 
     @Column()
+    auth: string
+
+    @Column()
     idagente: string
     
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })

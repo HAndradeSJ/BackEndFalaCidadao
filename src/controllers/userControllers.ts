@@ -1,4 +1,5 @@
 import { Response,Request } from "express"
+import { UserServices } from "../services/userServices"
 export class UserController {
   private static instance: UserController
   private constructor() {}
@@ -11,18 +12,34 @@ export class UserController {
   }
 
   
-  public async singUp(req:Request, res:Response){
+  public async singUpUser(req:Request, res:Response){
     try{
       const dataUser = req.body
       if(!dataUser){
-        return res.status(404).send(`ocorreu um erro nos dados do usuário`)
+        return res.status(404).send({err:"ocorreu um erro nos dados do usuario"})
       }
-      // const saveUser = await UserService.Instance().singUpUser(dataUser)
-    // return  res.send(`User saved successfully  ${JSON.stringify(saveUser)}`)
+      const saveUser = await UserServices.Instance().singUp(dataUser)
+      return res.status(200).send({response: saveUser})
 
     }catch(err){
       res.status(500).send(err)
       console.log(`ocorreu um erro no controllers de singUp ${err}`)
+    }
+  }
+
+
+  public async loginUser(req: Request, res: Response){
+    try{
+      const {email,senha} =req.body
+      if(!email || !senha){
+        return res.status(404).send({err:"ocorreu um erro nos dados do usuario"})
+      }
+      const authenticated = await UserServices.Instance().loginUser(email,senha)
+      return res.status(200).send({toeken: authenticated})
+
+    }catch(err){
+      res.status(500).send(err)
+      console.log(`ocorreu  um erro no controllers de singUp ${err}`)
     }
   }
 }
