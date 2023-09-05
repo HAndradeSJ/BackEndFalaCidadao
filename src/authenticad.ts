@@ -6,11 +6,11 @@ env.config({path:__dirname + './.env'})
 
 export const conectedDatabase = new DataSource({
     type: "mysql",
-    host:process.env.localhost,
+    host:"localhost",
     port: 3306,
-    username:process.env.username,
-    password:process.env.password,
-    database:process.env.database,
+    username:"root",
+    password:"1234",
+    database:"falacidadao",
     entities: [
       Usuarios
   ],

@@ -35,7 +35,7 @@ export class UserController {
         return res.status(404).send({err:"ocorreu um erro nos dados do usuario"})
       }
       const authenticated = await UserServices.Instance().loginUser(email,senha)
-      return res.status(200).send({toeken: authenticated})
+      return res.status(200).send({token: authenticated})
 
     }catch(err){
       res.status(500).send(err)

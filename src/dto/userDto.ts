@@ -13,7 +13,7 @@ export interface userDto {
 
 export const requestSchema = z.object({
   nome: z.string().min(100),
-  idade: z.string().min(2),
+  idade: z.number().max(2),
   cpf: z.string().min(15).max(15),
   funcao: z.string().max(15),
   email: z.coerce.string().min(100),

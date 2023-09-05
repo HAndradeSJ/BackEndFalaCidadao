@@ -4,7 +4,7 @@ import app from './config'
 import http from 'http'
 
 const server = http.createServer({},app)
-const port = 3000
+const port = 3080
 
 
 server.listen(port,()=>{

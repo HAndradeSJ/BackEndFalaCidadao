@@ -23,16 +23,17 @@ export class Usuarios {
     @Column()
     senha: string
 
-    @Column()
+    @Column({ length: 500})
     auth: string
+   
 
-    @Column()
+    @Column({nullable:true})
     idagente: string
     
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
-    public created_at: Date;
+    public logo_criacao: Date;
 
     @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
-    public updated_at: Date;
+    public logo_update: Date;
     
 }
