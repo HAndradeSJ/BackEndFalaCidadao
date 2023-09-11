@@ -1,42 +1,44 @@
 import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn } from "typeorm"
 
 @Entity()
-export class Usuarios {
+export class Categoria {
     @PrimaryColumn()
-    idusuario: string
+    idcategoria: string
 
     @Column()
-    nome: string
+    status: string
 
     @Column()
-    idade: number
+    imagemUrl: string
 
     @Column()
-    cpf:string
+    descricao:string
 
     @Column()
-    telefone : string
+    logradouro: string
 
     @Column()
-    funcao: string
+    numero: number
 
     @Column()
-    email: string
+    bairro: string
 
     @Column()
-    senha: string
+    pontoderef: string
 
-    @Column({ length: 500})
-    auth: string
-   
+    @Column()
+    confirmacao: string
+
+    @Column()
+    comentario: string
 
     @Column({nullable:true})
     idagente: string
     
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
-    public logo_criacao: Date;
+    public log_criacao: Date;
 
     @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
-    public logo_update: Date;
+    public log_update: Date;
     
 }

@@ -30,6 +30,7 @@ export class UserServices{
       newUser.nome = valid.nome
       newUser.idade = valid.idade
       newUser.cpf = valid.cpf
+      newUser.telefone = valid.telefone
       newUser.funcao = valid.funcao
       newUser.email = valid.email
 
