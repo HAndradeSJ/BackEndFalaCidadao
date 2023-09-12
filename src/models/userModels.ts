@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn } from "typeorm"
-
+import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, } from "typeorm"
 @Entity()
 export class Usuarios {
     @PrimaryColumn()
@@ -30,9 +29,6 @@ export class Usuarios {
     auth: string
    
 
-    @Column({nullable:true})
-    idagente: string
-    
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     public logo_criacao: Date;
 
