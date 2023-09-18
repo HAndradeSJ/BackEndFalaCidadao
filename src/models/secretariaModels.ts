@@ -20,7 +20,8 @@ export class Secretaria {
 
     @OneToOne(()=> Usuarios, usuarios => usuarios.idusuario)
     @JoinColumn({ name: 'fk_idusuario' })
-    
+ 
+
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     public log_criacao: Date;
 
