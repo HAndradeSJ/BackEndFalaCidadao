@@ -12,7 +12,7 @@ export interface userDto {
   idagente : string
 }
 
-export const requestSchema = z.object({
+export const userSchema = z.object({
   nome: z.string().min(100),
   idade: z.number().max(2),
   cpf: z.string().min(15).max(15),

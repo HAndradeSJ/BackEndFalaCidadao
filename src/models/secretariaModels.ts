@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne } from "typeorm"
+import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from "typeorm"
 import { Usuarios } from "./userModels"
 
 @Entity()
@@ -19,7 +19,7 @@ export class Secretaria {
     descricao: string
 
     @OneToOne(()=> Usuarios, usuarios => usuarios.idusuario)
-    fk_idusuario: string
+    @JoinColumn({ name: 'fk_idusuario' })
     
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     public log_criacao: Date;

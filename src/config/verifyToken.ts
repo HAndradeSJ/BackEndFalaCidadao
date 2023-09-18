@@ -3,11 +3,13 @@ import * as jwt from 'jsonwebtoken'
 
 
 export async function VerifyToken(req: Request,res: Response,next:NextFunction){
+  
   const bearerReq = req.headers['authorization']
   const bearer = bearerReq?.split(' ')
   const bearerToken = bearer && bearer.length > 1 && bearer[1]
-  
+
   try{
+
   const token = await jwt.verify(bearerToken || '', 'pao') as any
   (req as  any).authUser = {id:token.id}
   

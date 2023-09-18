@@ -17,7 +17,7 @@ export interface SolicitacaoDto {
   fk_categoria:string
 }
 
-export const requestSchema = z.object({
+export const soliSchema = z.object({
   status: z.string().min(3),
   imageUrl: z.string().min(7),
   descricao: z.string().min(6).max(255),

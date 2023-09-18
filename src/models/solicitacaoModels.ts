@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from "typeorm"
 import { Categoria } from "./categoriaModels"
+import { Usuarios } from "./userModels"
 
 
 @Entity()
@@ -38,14 +39,14 @@ export class Solicitacao {
     @Column({nullable:true})
     comentario: string
 
-    @Column({nullable:true})
-    idusuario: string
+    @OneToOne(()=>Usuarios,(usuarios) => usuarios.idusuario)
+    @JoinColumn({ name: 'fk_idusuario' })
 
-    @Column({nullable:true})
-    idagente: string
+    @OneToOne(()=>Usuarios,(usuarios) => usuarios.idusuario)
+    @JoinColumn({ name: 'fk_idagente' })
 
     @OneToOne(() => Categoria, (categoria) => categoria.idcategoria)
-    @JoinColumn({ name: 'fk_categoria' })
+    @JoinColumn({ name: 'fk_idcategoria' })
     
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     public log_criacao: Date;

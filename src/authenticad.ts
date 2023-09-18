@@ -3,6 +3,8 @@ import env from 'dotenv'
 import { DataSource } from "typeorm"
 import {  Usuarios } from "./models/userModels"
 import { Solicitacao } from "./models/solicitacaoModels"
+import { Secretaria } from './models/secretariaModels'
+import { Categoria } from './models/categoriaModels'
 
 env.config({path:__dirname + './.env'})
 
@@ -15,7 +17,9 @@ export const conectedDatabase = new DataSource({
     database:"falacidadao",
     entities: [
       Usuarios,
-      Solicitacao
+      Solicitacao,
+      Secretaria,
+      Categoria
   ],
   synchronize: true,
   logging: true,

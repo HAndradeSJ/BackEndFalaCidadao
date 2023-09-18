@@ -1,8 +1,9 @@
 import { v4 } from "uuid"
+
+
 import { SolicitacaoDto } from "../dto/soliciDto"
 import { Solicitacao } from "../models/solicitacaoModels"
 import { SolicitacaoRepository } from "../repostitory/solicitacaoRepository"
-import { loggers } from "winston"
 
 
 export class SolicitacaoServices{
@@ -21,7 +22,7 @@ export class SolicitacaoServices{
       const newSolicitacao = new Solicitacao()
       newSolicitacao.idsolicitacao = v4()
       newSolicitacao.idusuario = id
-      newSolicitacao.status = ' Em Andamento'
+      newSolicitacao.status = ' Em Aberto'
       newSolicitacao.imagemUrl = valid.imagemUrl
       newSolicitacao.descricao = valid.descricao
       newSolicitacao.logradouro = valid.logradouro
