@@ -6,7 +6,7 @@ export interface secretariaDto {
   responsavel: string
   telefone: string
   descicao: string
-  fk_usuario: string
+  fk_idusuario: string
  
  
 }
@@ -17,6 +17,7 @@ export const secretariaSchema = z.object({
   responsavel: z.string().min(10),
   telefone: z.number().min(5),
   descricao: z.string().min(10),
+  fk_idusuario:z.string(),
 
   
 })

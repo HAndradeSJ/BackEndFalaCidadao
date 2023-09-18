@@ -4,7 +4,7 @@ import { Usuarios } from "./userModels"
 @Entity()
 export class Secretaria {
     @PrimaryColumn()
-    idssecretaria: string
+    idsecretaria: string
 
     @Column()
     nome: string
@@ -18,8 +18,11 @@ export class Secretaria {
     @Column()
     descricao: string
 
-    @OneToOne(()=> Usuarios, usuarios => usuarios.idusuario)
+    @OneToOne(()=> Usuarios,(usuarios) => usuarios.idusuario)
+    @Column()
+    fk_idusuario: string
     @JoinColumn({ name: 'fk_idusuario' })
+
  
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })

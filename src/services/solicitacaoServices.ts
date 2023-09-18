@@ -21,7 +21,7 @@ export class SolicitacaoServices{
     try{
       const newSolicitacao = new Solicitacao()
       newSolicitacao.idsolicitacao = v4()
-      newSolicitacao.idusuario = id
+      newSolicitacao.fk_idusuario = id
       newSolicitacao.status = ' Em Aberto'
       newSolicitacao.imagemUrl = valid.imagemUrl
       newSolicitacao.descricao = valid.descricao

@@ -21,7 +21,7 @@ export class CategoriaServices{
       const newCategoria = new Categoria()
       newCategoria.idcategoria = v4()
       newCategoria.categoria = categoria.categoria
-      newCategoria.fksecretaria = categoria.fksecretaria
+      newCategoria.fk_idsecretaria = categoria.fkidsecretaria
 
       const response = await CategoriaRepository.save(newCategoria)
       return response

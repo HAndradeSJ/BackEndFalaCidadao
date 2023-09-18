@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from "typeorm"
+import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, OneToMany, ManyToOne } from "typeorm"
 import { Categoria } from "./categoriaModels"
 import { Usuarios } from "./userModels"
 
@@ -40,13 +40,19 @@ export class Solicitacao {
     comentario: string
 
     @OneToOne(()=>Usuarios,(usuarios) => usuarios.idusuario)
+    @Column()
+    fk_idusuario: string
     @JoinColumn({ name: 'fk_idusuario' })
 
     @OneToOne(()=>Usuarios,(usuarios) => usuarios.idusuario)
+    @Column()
+    fk_idagente: string
     @JoinColumn({ name: 'fk_idagente' })
 
-    @OneToOne(() => Categoria, (categoria) => categoria.idcategoria)
-    @JoinColumn({ name: 'fk_idcategoria' })
+    @ManyToOne(() => Categoria, (categoria) => categoria.idcategoria)
+    @Column()
+    fk_idcategoria: string
+    @JoinColumn({ name:'fk_idcategoria'})
     
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     public log_criacao: Date;

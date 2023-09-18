@@ -17,7 +17,7 @@ export const userSchema = z.object({
   idade: z.number().max(2),
   cpf: z.string().min(15).max(15),
   telefone : z.string().min(14).max(14),
-  funcao: z.string().max(15),
+  funcao: z.string(),
   email: z.coerce.string().min(100),
   senha: z.coerce.string().min(4).max(100),
 })
