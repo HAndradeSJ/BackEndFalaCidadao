@@ -38,21 +38,16 @@ export class Solicitacao {
 
     @Column({nullable:true})
     comentario: string
-
-    @OneToOne(()=>Usuarios,(usuarios) => usuarios.idusuario)
-    @Column()
-    fk_idusuario: string
-    @JoinColumn({ name: 'fk_idusuario' })
-
-    @OneToOne(()=>Usuarios,(usuarios) => usuarios.idusuario)
-    @Column()
-    fk_idagente: string
-    @JoinColumn({ name: 'fk_idagente' })
-
-    @ManyToOne(() => Categoria, (categoria) => categoria.idcategoria)
-    @Column()
+    
+    @OneToOne(()=>Categoria,(categoria) =>categoria.idcategoria)
+    @JoinColumn({ name: 'fk_idcategoria' })
     fk_idcategoria: string
-    @JoinColumn({ name:'fk_idcategoria'})
+
+    @OneToOne(()=>Usuarios,(usuarios) => usuarios.idusuario)
+    @JoinColumn({ name: 'fk_idusuario' })
+    fk_idusuario: string
+
+
     
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     public log_criacao: Date;

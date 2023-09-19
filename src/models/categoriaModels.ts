@@ -10,9 +10,9 @@ export class Categoria {
     categoria: string
 
     @OneToOne(()=> Secretaria,(Secretaria) => Secretaria.idsecretaria)
-    @Column()
-    fk_idsecretaria: string
     @JoinColumn({ name: 'fk_idsecretaria' })
+    fk_idsecretaria: string
+
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     public log_criacao: Date;
