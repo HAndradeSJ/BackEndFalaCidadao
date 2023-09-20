@@ -14,14 +14,15 @@ export class SecretariaServices{
     return SecretariaServices.instance
   }
 
-  public async SecretariaCreate(secretaria:secretariaDto){
+  public async SecretariaCreate(secretaria:secretariaDto,id:string){
     try{
       const newSecretaria = new Secretaria()
       newSecretaria.idsecretaria = v4()
       newSecretaria.nome = secretaria.nome
-      newSecretaria.descricao = secretaria.descicao
+      newSecretaria.descricao = secretaria.descricao
       newSecretaria.responsavel = secretaria.responsavel
-      newSecretaria.fk_idusuario  = secretaria.fk_idusuario
+      newSecretaria.telefone = secretaria.telefone
+      newSecretaria.fk_idusuario  = id
 
       const saveSecretaria = await SecretariaRepository.save(newSecretaria)
       return saveSecretaria

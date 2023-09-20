@@ -15,16 +15,13 @@ export class CategoriaController{
   public async CategoriaCreate(req:Request, res:Response){
     try{
       const categoria = req.body
-      
+
       if(!categoria){
         res.status(400).send({message:"Dados inconpletos"})
       }
-      const saveCategoria = await CategoriaServices.Instance().CategoriaCreate
-      console.log(saveCategoria)
-      return res.status(200).send({message:"categoria criada com sucesso !"})
+      const saveCategoria = await CategoriaServices.Instance().CategoriaCreate(categoria)
+      return res.send(saveCategoria)
 
-   
-      return 
     }catch(err){
       return res.status(400).send({erro:"Erro no interno do servidor"})
     }

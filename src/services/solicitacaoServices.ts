@@ -29,10 +29,10 @@ export class SolicitacaoServices{
       newSolicitacao.numero = valid.numero
       newSolicitacao.bairro = valid.bairro
       newSolicitacao.pontoderef = valid.pontoderef
+      newSolicitacao.fk_idcategoria = valid.fk_idcategoria
 
       const save = await SolicitacaoRepository.save(newSolicitacao)
-      console.log(save)
-      return 'Solicitação criada com sucesso !'
+      return save
     
     }catch(err){
       console.log(err)

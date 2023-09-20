@@ -18,9 +18,11 @@ import { SecretariaServices } from "../services/secretariaServices"
         if(!secretaria){
           return res.status(404).send({eror:"pârametros ausentes"})
         }
-        const createSecretaria = await SecretariaServices.Instance().SecretariaCreate
+        const {id}  = (req as any).authUser
+
+        const createSecretaria = await SecretariaServices.Instance().SecretariaCreate(secretaria,id)
         console.log(createSecretaria)
-        return res.status(200).send({response : 'secretaria cadastra com sucesso !'})
+        return res.status(200).send({response : 'Secretaria cadastra com sucesso !'})
     }catch(err){
       console.log(err)
       return res.status(400).send({erro:"Não foi possivel cirar secretaria"})

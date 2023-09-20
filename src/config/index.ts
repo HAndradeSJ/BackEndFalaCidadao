@@ -15,6 +15,8 @@ app.use(cor());
 app.use(express.json());
 app.use(morgan("combined"));
 app.use('/user', VerifyToken)
+app.use('/solicitacao', VerifyToken)
+app.use('/secretaria', VerifyToken)
 
 
 app.use('/user',UserRoutes.userRouter)

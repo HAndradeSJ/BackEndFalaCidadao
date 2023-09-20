@@ -4,8 +4,8 @@ export interface secretariaDto {
   idsecretaria:string
   nome: string
   responsavel: string
-  telefone: string
-  descicao: string
+  telefone: number
+  descricao: string
   fk_idusuario: string
  
  

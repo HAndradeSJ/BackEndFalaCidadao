@@ -59,7 +59,7 @@ export class UserServices{
         senha: senhaHash
       })
       if(findUser){
-        const token = jwt.sign({email:findUser.email,senha:findUser.senha},'pao')
+        const token = jwt.sign({email:findUser.email,senha:findUser.senha,id:findUser.idusuario},'pao')
         return token
       }
       else{

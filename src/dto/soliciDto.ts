@@ -14,7 +14,7 @@ export interface SolicitacaoDto {
   pontoderef: string
   confirmacao: string
   comentario: string
-  fk_categoria:string
+  fk_idcategoria:string
 }
 
 export const soliSchema = z.object({

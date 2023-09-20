@@ -21,13 +21,15 @@ export class CategoriaServices{
       const newCategoria = new Categoria()
       newCategoria.idcategoria = v4()
       newCategoria.categoria = categoria.categoria
-      newCategoria.fk_idsecretaria = categoria.fkidsecretaria
+      newCategoria.fk_idsecretaria = categoria.fk_idsecretaria
 
       const response = await CategoriaRepository.save(newCategoria)
-      return response
+      console.log(response)
+      return {response : "categoria cadastrada com sucesso !!"}
 
     }catch(err){
         console.log(err)
+        return {erro:"erro ao cadastrar categoria"}
     }
   }
   
