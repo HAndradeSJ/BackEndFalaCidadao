@@ -2,14 +2,11 @@ import {v4} from 'uuid'
 import sha256 from 'crypto-js/sha256';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
-import CryptoJS from 'crypto-js';
 import jwt from 'jsonwebtoken'
 
 import { Usuarios } from '../models/userModels';
 import { userDto } from '../dto/userDto';
 import { userRepository } from '../repostitory/userRepository';
-
-
 
 
 export class UserServices{
@@ -50,6 +47,7 @@ export class UserServices{
     }
   }
 
+
   public async loginUser(userEmail:string, userSenha:string){
     try{
       const hashDigest = sha256(userSenha)
@@ -63,7 +61,7 @@ export class UserServices{
         return token
       }
       else{
-        return {error:"Essa conta não está registrada "}
+        return {error:"Email ou senha inválida"}
       }
 
     
