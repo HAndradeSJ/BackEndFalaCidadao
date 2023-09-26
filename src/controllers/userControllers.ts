@@ -1,5 +1,6 @@
 import { Response,Request } from "express"
 import { UserServices } from "../services/userServices"
+import { userRepository } from "../repostitory/userRepository"
 export class UserController {
   private static instance: UserController
   private constructor() {}
@@ -14,6 +15,8 @@ export class UserController {
   
   public async singUpUser(req:Request, res:Response){
     try{
+      const file = req.file
+      console.log(file)
       const dataUser = req.body
       if(!dataUser){
         return res.status(404).send({err:"ocorreu um erro nos dados do usuario"})
@@ -94,6 +97,25 @@ export class UserController {
     }catch(err){
       console.log(err)
       return res.status(500).send({error:"Erro ao pegar o Usuários"})
+    }
+  }
+  public async uploadPhoto(req: Request, res: Response){
+    try{
+       const file =  req.file
+       const {id}  = (req as any).authUser
+
+       console.log(file)
+       if(!file){
+        return res.status(404).send({error:"arquivo não foi possível"})
+       }
+
+       const savephoto =  await UserServices.Instance().uploadPhoto(id,file)
+       console.log(savephoto)
+       return res.status(200).send({response:"imagme registrada com sucesso !"})
+
+    }catch(err){
+      console.log(err)
+      return res.status(500).send({error:"erro upload de photos"})
     }
   }
 }

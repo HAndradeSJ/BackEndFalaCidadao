@@ -25,6 +25,9 @@ export class Usuarios {
     @Column()
     senha: string
 
+    @Column({nullable:true})
+    avatarUrl: string
+
     @Column({ length: 500})
     auth: string
    

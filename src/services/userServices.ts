@@ -161,5 +161,21 @@ export class UserServices{
       return {error:"Não foi pegar todos Usuarios"}
     }
   }
+  public async uploadPhoto(id:string,upload:any){
+    try{
+      const finduser = await userRepository.findOneBy({idusuario : id})
+      if(finduser){
+        console.log(finduser)
+        const newUser = new Usuarios()
+        
+
+      }else{
+        return 'Usuario não foi encontrado'
+      }
+    }catch(error){
+      console.log(error)
+      return {error:"Não foi pegar todos Usuarios"}
+    }
+  }
 
 }

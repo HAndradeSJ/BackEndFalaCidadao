@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { UserController } from "../controllers/userControllers";
+import { upload } from "../config/multer";
 
 
 const authRouter = Router()
