@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { UserController } from "../controllers/userControllers";
-import { upload } from "../config/multer";
+
 
 
 const authRouter = Router()
@@ -9,4 +9,4 @@ const authRouter = Router()
 authRouter.post('/sign-up',UserController.Instance().singUpUser)
 authRouter.post('/login',UserController.Instance().loginUser)
 
-export default {authRouter};
+export default {authRouter}; 

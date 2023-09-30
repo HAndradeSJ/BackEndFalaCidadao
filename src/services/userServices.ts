@@ -114,12 +114,6 @@ export class UserServices{
           const savePassword = await userRepository.update(searchUser.idusuario,newUser)
 
           if(savePassword){
-            //  await emailTransportor.sendMail({
-            //     from:'Henrique Andrade <henrique665@fiec.edu.br',
-            //     to:"luisfernandopires305@gmail.com",
-            //     subject:"senha resetada !",
-            //     text:`<p>Sua senha nova é ${newPassword} </p>`
-            //   })
                 return `senha resetada com sucesso, sua nova senha ${newPassword}`
           }else{
             return {erro:"erro em atualizar senha !"}
@@ -148,10 +142,10 @@ export class UserServices{
 
   public async selectbyId(id:string){
     try{
-      const all = await userRepository.findOneBy({idusuario : id})
-      if(all){
+      const one = await userRepository.findOneBy({idusuario : id})
+      if(one){
 
-        return all
+        return one
 
       }else{
         return 'Usuario não foi encontrado'
@@ -160,6 +154,7 @@ export class UserServices{
       console.log(error)
       return {error:"Não foi pegar todos Usuarios"}
     }
+
   }
   public async uploadPhoto(id:string,upload:any){
     try{
@@ -167,7 +162,16 @@ export class UserServices{
       if(finduser){
         console.log(finduser)
         const newUser = new Usuarios()
+        newUser.avatarUrl = upload.path
         
+        const uploadImage = await userRepository.update(id,newUser)
+
+        if(uploadImage){
+          return {response:"Imagem salva com sucesso !"}
+        }
+        else{
+          return {erro:"occoreu um erro ao salvar no upload "}
+        }
 
       }else{
         return 'Usuario não foi encontrado'

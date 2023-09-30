@@ -37,8 +37,40 @@ export class SolicitacaoServices{
     }catch(err){
       console.log(err)
       return "Ocorreu um erro ao criar Solicitação"
-     
+    }
+  }
+    public async uploadPhoto(id:string,upload:any){
+      try{
+        const findSolici = await SolicitacaoRepository.findOneBy({fk_idusuario : id})
+        if(findSolici){
+          const newSolici = new Solicitacao()
+          newSolici.imagemUrl = upload.path
+          
+          const uploadImage = await SolicitacaoRepository.update(id,newSolici)
+  
+          if(uploadImage){
+            return {response:"Imagem salva com sucesso !"}
+          }
+          else{
+            return {erro:"occoreu um erro ao salvar no upload "}
+          }
+  
+        }else{
+          return 'Solicitação  não foi encontrada'
+        }
+      }catch(error){
+        console.log(error)
+        return {error:"Não foi pegar todos Usuarios"}
+      }
+  }
 
+  public async getAll(){
+    try{
+        const findAll = await SolicitacaoRepository.find()
+        return findAll
+    }catch(error){
+      console.log(error)
+      return {erro:"occoreu um erro ao pegar tudo"}
     }
   }
 }
