@@ -31,5 +31,17 @@ export class SecretariaServices{
         console.log(err)
     }
   }
+  public async GetAll(){
+    try{
+      const get = await SecretariaRepository.find();
+      if(!get){
+        return {erro:"Não foi possível listar as secretarias "}
+      }
+      return get
+    }catch(err){
+        console.log(err)
+        return {erro:"erro ao pegar todas as secretarias"}
+    }
+  }
   
 }

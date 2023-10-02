@@ -32,5 +32,19 @@ export class CategoriaServices{
         return {erro:"erro ao cadastrar categoria"}
     }
   }
+  public async GetAll(){
+    try{
+      const get = await CategoriaRepository.find();
+      if(!get){
+        return {erro:"Não foi possível listar as categorias "}
+      }
+      return get
+    }catch(err){
+        console.log(err)
+        return {erro:"erro ao pegar todas as  categoria"}
+    }
+  }
+
+
   
 }

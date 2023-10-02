@@ -28,5 +28,14 @@ import { SecretariaServices } from "../services/secretariaServices"
       return res.status(400).send({erro:"Não foi possivel cirar secretaria"})
     }
   }
+  public async SecretariaGetAll(req: Request, res: Response){
+    try{
+      const getAll = await SecretariaServices.Instance().GetAll()
+      return res.status(200).send({response:getAll})
+    }catch(err){
+      console.log(err)
+      res.status(400).end({erro:"Erro no interno"})
+    }
+  }
 
 }

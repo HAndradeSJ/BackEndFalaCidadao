@@ -41,12 +41,12 @@ export class SolicitacaoServices{
   }
     public async uploadPhoto(id:string,upload:any){
       try{
-        const findSolici = await SolicitacaoRepository.findOneBy({fk_idusuario : id})
+        const findSolici = await SolicitacaoRepository.findOneBy({fk_idusuario:id})
         if(findSolici){
           const newSolici = new Solicitacao()
           newSolici.imagemUrl = upload.path
           
-          const uploadImage = await SolicitacaoRepository.update(id,newSolici)
+          const uploadImage = await SolicitacaoRepository.update(findSolici.idsolicitacao,newSolici)
   
           if(uploadImage){
             return {response:"Imagem salva com sucesso !"}
