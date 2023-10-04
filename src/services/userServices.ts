@@ -55,6 +55,18 @@ export class UserServices{
     try{
       const hashDigest = sha256(userSenha)
       const senhaHash = Base64.stringify(hmacSHA512(hashDigest,'chavesecreta'))
+      const findEmail = await userRepository.findOneBy({
+        email: userEmail,
+      })
+      const findPassword = await userRepository.findOneBy({
+        senha: senhaHash
+      })
+      if(findEmail == null){
+        return{erro:"Email inválido"}
+      }
+      if(findPassword == null){
+        return {erro:"Senha inválida"}
+      }
       const findUser = await userRepository.findOneBy({
         email: userEmail,
         senha: senhaHash
@@ -64,8 +76,9 @@ export class UserServices{
         return token
       }
       else{
-        return {error:"Essa conta não está registrada "}
+        return {erro:"Conta inexistente"}
       }
+        
     }catch(error){
       console.log(error)
       return {error:"Não foi possivel logar "}
@@ -82,10 +95,9 @@ export class UserServices{
       const hashDigest = sha256(dataEdit.senha)
       const senhaHash = Base64.stringify(hmacSHA512(hashDigest,'chavesecreta'))
       userChange.senha = !senhaHash ? userEdit.senha = userChange.senha : senhaHash
-      userChange.email = !dataEdit.email ? userEdit.email = userChange.email : dataEdit.email
+     
       }
 
-      userChange.email = !dataEdit.email ? userEdit.email = userChange.email : dataEdit.email
       const edit = await userRepository.update(id,userChange)
 
       if(edit){
@@ -142,7 +154,9 @@ export class UserServices{
 
   public async selectbyId(id:string){
     try{
-      const one = await userRepository.findOneBy({idusuario : id})
+      console.log(id)
+      const one = await userRepository.findOneBy({idusuario:id})
+      console.log(one)
       if(one){
 
         return one

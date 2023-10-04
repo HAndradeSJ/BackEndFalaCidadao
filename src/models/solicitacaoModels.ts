@@ -43,7 +43,7 @@ export class Solicitacao {
     @JoinColumn({ name: 'fk_idcategoria' })
     fk_idcategoria: string
 
-    @OneToOne(()=>Usuarios,(usuarios) => usuarios.idusuario)
+    @OneToMany(()=>Usuarios,(usuarios) => usuarios.idusuario)
     @JoinColumn({ name: 'fk_idusuario' })
     fk_idusuario: string
 

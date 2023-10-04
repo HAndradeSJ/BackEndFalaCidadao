@@ -1,6 +1,6 @@
 import { Request, Response,  } from "express"
 import { SolicitacaoServices } from "../services/solicitacaoServices"
-import { UserServices } from "../services/userServices"
+
 export class SolicitacaoController{
   private static instace :  SolicitacaoController
   private constructor(){}
@@ -59,5 +59,16 @@ export class SolicitacaoController{
       console.log(err)
     }
   }
+
+  public async getMySolicitacao(req:Request, res:Response){
+    try{
+      const {id}  = (req as any).authUser
+
+      const getBySolicitacao = await SolicitacaoServices.Instance().getBySoliciId(id)
+      return res.status(200).send({response:getBySolicitacao})
+    }catch(err){
+      res.status(400).send({erro:"Ocorreu um erro ao pegar suas solicitacao"})
+  }
+}
 
 }

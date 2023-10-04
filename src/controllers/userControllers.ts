@@ -89,8 +89,7 @@ export class UserController {
   
   public async getbyId(req: Request, res: Response) {
     try{
-      const {id} = req.params
-      console.log(id)
+      const {id}  = (req as any).authUser
       const getUsers = await UserServices.Instance().selectbyId(id)
       return res.status(200).send({response:getUsers})
 

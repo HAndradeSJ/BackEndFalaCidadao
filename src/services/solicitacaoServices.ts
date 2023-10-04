@@ -73,4 +73,17 @@ export class SolicitacaoServices{
       return {erro:"occoreu um erro ao pegar tudo"}
     }
   }
+
+  public async getBySoliciId(id:string){
+    try{
+        const findAllby = await SolicitacaoRepository.findBy({fk_idusuario:id})
+        if(findAllby == null){
+          return {erro:"não a solicitações"}
+        }
+        return findAllby
+    }catch(err){
+      console.log(err)
+      return {erro:"occoreu um erro ao pegar suas solicitacao"}
+    }
+  }
 }

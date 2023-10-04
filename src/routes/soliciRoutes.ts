@@ -8,6 +8,8 @@ const soliciRouter = Router()
 soliciRouter.post('/create',SolicitacaoController.Instance().SolicitacaoCreate)
 soliciRouter.put('/upload/image',uploadSolici.single('file'),SolicitacaoController.Instance().SolicitacaoUpload)
 soliciRouter.get('/getall',SolicitacaoController.Instance().getAllsolicitacao)
+soliciRouter.get('/get/mysolici',SolicitacaoController.Instance().getMySolicitacao)
+
 
 
 export default {soliciRouter}
