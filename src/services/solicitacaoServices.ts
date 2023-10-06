@@ -76,11 +76,13 @@ export class SolicitacaoServices{
 
   public async getBySoliciId(id:string){
     try{
-        const findAllby = await SolicitacaoRepository.findBy({fk_idusuario:id})
-        if(findAllby == null){
-          return {erro:"não a solicitações"}
-        }
-        return findAllby
+       const findById = await SolicitacaoRepository.findBy({fk_idusuario:id})
+       if(findById == null){
+        return {erro:"Não a nenhuma solicitação "}
+       }
+       if(findById){
+        return findById
+       }
     }catch(err){
       console.log(err)
       return {erro:"occoreu um erro ao pegar suas solicitacao"}

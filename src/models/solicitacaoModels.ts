@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, OneToMany, ManyToOne, Generated } from "typeorm"
+import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, OneToMany, ManyToOne, Generated, ManyToMany } from "typeorm"
 import { Categoria } from "./categoriaModels"
 import { Usuarios } from "./userModels"
 
@@ -39,11 +39,15 @@ export class Solicitacao {
     @Column({nullable:true})
     comentario: string
     
-    @OneToOne(()=>Categoria,(categoria) =>categoria.idcategoria)
+    @OneToOne(()=>Categoria,{nullable: false, eager: true})
     @JoinColumn({ name: 'fk_idcategoria' })
     fk_idcategoria: string
 
-    @OneToMany(()=>Usuarios,(usuarios) => usuarios.idusuario)
+    @OneToOne(()=>Usuarios,{nullable:true, eager: true})
+    @JoinColumn({ name: 'fk_idagente' })
+    fk_idagente:string
+
+    @ManyToOne(()=>Usuarios,{eager:true})
     @JoinColumn({ name: 'fk_idusuario' })
     fk_idusuario: string
 

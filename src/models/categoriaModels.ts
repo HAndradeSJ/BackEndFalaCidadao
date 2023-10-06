@@ -9,7 +9,7 @@ export class Categoria {
     @Column()
     categoria: string
 
-    @OneToOne(()=> Secretaria,(Secretaria) => Secretaria.idsecretaria)
+    @OneToOne(()=> Secretaria,{eager: true})
     @JoinColumn({ name: 'fk_idsecretaria' })
     fk_idsecretaria: string
 
