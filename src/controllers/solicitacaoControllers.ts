@@ -1,6 +1,7 @@
 import { Request, Response,  } from "express"
 import { SolicitacaoServices } from "../services/solicitacaoServices"
 
+
 export class SolicitacaoController{
   private static instace :  SolicitacaoController
   private constructor(){}
@@ -68,6 +69,22 @@ export class SolicitacaoController{
       return res.status(200).send({response:getBySolicitacao})
     }catch(err){
       res.status(400).send({erro:"Ocorreu um erro ao pegar suas solicitacao"})
+  }
+}
+
+
+public async deleteSolicitacao (req: Request, res: Response){
+  try{
+    const id = req.params.id
+  
+    if(!id){
+      return res.status(404).send({error:"Solicitação não foi enviada "})
+    }
+    const response = await SolicitacaoServices.Instance().deleteSolici(id)
+    return res.status(200).send({response : response})
+  }catch(err){
+    console.log(err)
+    res.status(400).end({erro:"Erro no interno"})
   }
 }
 

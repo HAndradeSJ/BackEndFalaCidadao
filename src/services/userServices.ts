@@ -12,6 +12,7 @@ import { userRepository } from '../repostitory/userRepository';
 
 
 
+
 export class UserServices{
   private static instance: UserServices
   private constructor() {}
@@ -25,7 +26,12 @@ export class UserServices{
 
   public async singUp(valid:userDto){
     try{
-      const newUser = new Usuarios()
+      const findEmail = await userRepository.findOneBy({email:valid.email})
+      
+      if(findEmail?.email== valid.email){
+        return {error:"Email já cadastrado "}
+      }
+      const newUser = new Usuarios()  
       newUser.idusuario = v4()
       newUser.nome = valid.nome
       newUser.idade = valid.idade
@@ -67,6 +73,7 @@ export class UserServices{
       if(findPassword == null){
         return {erro:"Senha inválida"}
       }
+
       const findUser = await userRepository.findOneBy({
         email: userEmail,
         senha: senhaHash
@@ -84,6 +91,7 @@ export class UserServices{
       return {error:"Não foi possivel logar "}
     }
   }
+
 
   public async changePassword(dataEdit:any,id:string){
     try{
@@ -111,6 +119,7 @@ export class UserServices{
       return {error:"Não foi possivel atualizar senha"}
     }
   }
+
 
 
   public async resetPassword(email : string){
@@ -141,6 +150,7 @@ export class UserServices{
   }
   
 
+
   public async selectAll(){
     try{
       const all = await userRepository.find()
@@ -151,6 +161,7 @@ export class UserServices{
     }
   }
   
+
 
   public async selectbyId(id:string){
     try{
@@ -170,6 +181,7 @@ export class UserServices{
     }
 
   }
+
   public async uploadPhoto(id:string,upload:any){
     try{
       const finduser = await userRepository.findOneBy({idusuario : id})
@@ -193,6 +205,21 @@ export class UserServices{
     }catch(error){
       console.log(error)
       return {error:"Não foi pegar todos Usuarios"}
+    }
+  }
+
+  
+  public async deleteById(id:string){
+    try{
+      const response =  await userRepository.delete(id)
+      if (response.affected == 0 ){
+        return {error:"Esse Usuário já foi deletado"}
+      }
+      return {sucess:"Usuário deletado com sucesso !"}
+    
+    }catch(error){
+      console.log(error)
+      return {error:"Não foi possivel deletar essa conta "}
     }
   }
 

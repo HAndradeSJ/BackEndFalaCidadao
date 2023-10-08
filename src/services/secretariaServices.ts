@@ -30,10 +30,14 @@ export class SecretariaServices{
     }catch(err){
         console.log(err)
     }
+
+
   }
+
   public async GetAll(){
     try{
       const get = await SecretariaRepository.find();
+      console.log(get)
       if(!get){
         return {erro:"Não foi possível listar as secretarias "}
       }
@@ -41,6 +45,22 @@ export class SecretariaServices{
     }catch(err){
         console.log(err)
         return {erro:"erro ao pegar todas as secretarias"}
+    }
+  }
+
+
+  public async DeleteByID(id:string){
+    try{
+      const response = await SecretariaRepository.delete({idsecretaria:id})
+      console.log(response)
+      if(response.affected == 0){
+        return {erro:"Não existe essa secretaria"}
+      }
+      return {sucess:"secretaria deltada com sucesso "}
+     
+    }catch(err){
+        console.log(err)
+        return {erro:"erro ao apagar secretaria"}
     }
   }
   

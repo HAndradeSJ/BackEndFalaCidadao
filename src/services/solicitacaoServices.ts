@@ -74,6 +74,7 @@ export class SolicitacaoServices{
     }
   }
 
+
   public async getBySoliciId(id:string){
     try{
        const findById = await SolicitacaoRepository.findBy({fk_idusuario:id})
@@ -86,6 +87,21 @@ export class SolicitacaoServices{
     }catch(err){
       console.log(err)
       return {erro:"occoreu um erro ao pegar suas solicitacao"}
+    }
+  }
+
+  
+  public async deleteSolici(id:string){
+    try{
+    const response =  await SolicitacaoRepository.delete({idsolicitacao:id})
+      if (response.affected == 0 ){
+        return {error:"Esse solicitação já foi deletada"}
+      }
+      return {sucess:"Solicitação deletada com sucesso !"}
+    
+    }catch(error){
+      console.log(error)
+      return {error:"Não foi possivel deletar essa categoria "}
     }
   }
 }

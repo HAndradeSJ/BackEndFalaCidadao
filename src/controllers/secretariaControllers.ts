@@ -28,10 +28,26 @@ import { SecretariaServices } from "../services/secretariaServices"
       return res.status(400).send({erro:"Não foi possivel cirar secretaria"})
     }
   }
-  public async SecretariaGetAll (req: Request, res: Response){
+
+  public async secretariaGetAll (req: Request, res: Response){
     try{
       const getAll = await SecretariaServices.Instance().GetAll()
       return res.status(200).send({response:getAll})
+    }catch(err){
+      console.log(err)
+      res.status(400).end({erro:"Erro no interno"})
+    }
+  }
+
+  public async deleteSecretaria (req: Request, res: Response){
+    try{
+      const id = req.params.id
+    
+      if(!id){
+        return res.status(404).send({error:"secretaria não foi enviada "})
+      }
+      const response = await SecretariaServices.Instance().DeleteByID(id)
+      return res.status(200).send({response : response})
     }catch(err){
       console.log(err)
       res.status(400).end({erro:"Erro no interno"})

@@ -5,6 +5,7 @@ import { Categoria } from "../models/categoriaModels"
 import { CategoriaRepository } from "../repostitory/categoriaRepository"
 
 
+
 export class CategoriaServices{
   private static instance: CategoriaServices
   private constructor() {}
@@ -32,6 +33,8 @@ export class CategoriaServices{
         return {erro:"erro ao cadastrar categoria"}
     }
   }
+
+
   public async GetAll(){
     try{
       const get = await CategoriaRepository.find();
@@ -44,6 +47,23 @@ export class CategoriaServices{
         return {erro:"erro ao pegar todas as  categoria"}
     }
   }
+
+
+  public async DeleteCategoriaID(id:string){
+    try{
+      const response =  await CategoriaRepository.delete({idcategoria:id})
+      if (response.affected == 0 ){
+        return {error:"Esse categoria já foi deletada"}
+      }
+      return {sucess:"Categoria deletada com sucesso !"}
+    
+    }catch(error){
+      console.log(error)
+      return {error:"Não foi possivel deletar essa categoria "}
+    }
+  }
+
+  
 
 
   

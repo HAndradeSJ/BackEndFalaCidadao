@@ -117,4 +117,22 @@ export class UserController {
       return res.status(500).send({error:"erro upload de photos"})
     }
   }
+  public async deleteUser(req: Request, res: Response){
+    try{
+      const {id}  = (req as any).authUser
+      const idParms  = req.params.id 
+      if(!idParms){
+
+        const responsetoken = await UserServices.Instance().deleteById(id)
+        return res.status(200).send({response: responsetoken})
+
+      }
+      const responseParams= await UserServices.Instance().deleteById(idParms)
+      return res.status(200).send({response: responseParams})
+      
+    }catch(err){
+      console.log(err)
+      return res.status(500).send({error:"erro ao deletar Usários"})
+    }
+  }
 }

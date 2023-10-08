@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import { CategoriaServices } from "../services/categoriaServices"
+import { SecretariaServices } from "../services/secretariaServices"
 
 export class CategoriaController{
   private static instace :  CategoriaController
@@ -26,10 +27,25 @@ export class CategoriaController{
       return res.status(400).send({erro:"Erro no interno do servidor"})
     }
   }
+
   public async CategoriaGetAll(req: Request, res: Response){
     try{
       const getAll = await CategoriaServices.Instance().GetAll()
       return res.status(200).send({response:getAll})
+    }catch(err){
+      console.log(err)
+      res.status(400).end({erro:"Erro no interno"})
+    }
+  }
+  public async deleteCategoria(req: Request, res: Response){
+    try{
+      const id = req.params.id
+    
+      if(!id){
+        return res.status(404).send({error:"Categoria  não foi enviada "})
+      }
+      const response = await CategoriaServices.Instance().DeleteCategoriaID(id)
+      return res.status(200).send({response : response})
     }catch(err){
       console.log(err)
       res.status(400).end({erro:"Erro no interno"})
