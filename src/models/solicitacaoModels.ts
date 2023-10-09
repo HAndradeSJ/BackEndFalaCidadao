@@ -8,6 +8,9 @@ export class Solicitacao {
     @PrimaryColumn()
     idsolicitacao: string
 
+    @Column({nullable:true})
+    protocolo: number
+
     @Column()
     status: string
 
@@ -31,19 +34,12 @@ export class Solicitacao {
 
     @Column({nullable:true})
     justifictiva: string
-
-
-    @Column({nullable:true})
-    confirmacao: string
-
-    @Column({nullable:true})
-    comentario: string
     
-    @OneToOne(()=>Categoria,{nullable: false, eager: true})
+    @ManyToOne(()=>Categoria,{nullable: false, eager: true})
     @JoinColumn({ name: 'fk_idcategoria' })
     fk_idcategoria: string
 
-    @OneToOne(()=>Usuarios,{nullable:true, eager: true})
+    @ManyToOne(()=>Usuarios,{nullable:true, eager: true})
     @JoinColumn({ name: 'fk_idagente' })
     fk_idagente:string
 

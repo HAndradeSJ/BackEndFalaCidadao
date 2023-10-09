@@ -19,9 +19,11 @@ export class SolicitacaoServices{
 
   public async  SolicitacaoCreate(valid:SolicitacaoDto,id:string){
     try{
+      const getLastProtocolo = await SolicitacaoRepository.createQueryBuilder('Solicitacao').orderBy('Solicitacao.log_criacao','DESC').getOne();
       const newSolicitacao = new Solicitacao()
       newSolicitacao.idsolicitacao = v4()
       newSolicitacao.fk_idusuario = id
+      newSolicitacao.protocolo = getLastProtocolo == null ?  1 :getLastProtocolo?.protocolo + 1 
       newSolicitacao.status = ' Em Aberto'
       newSolicitacao.imagemUrl = valid.imagemUrl
       newSolicitacao.descricao = valid.descricao
@@ -90,7 +92,7 @@ export class SolicitacaoServices{
     }
   }
 
-  
+
   public async deleteSolici(id:string){
     try{
     const response =  await SolicitacaoRepository.delete({idsolicitacao:id})
@@ -102,6 +104,27 @@ export class SolicitacaoServices{
     }catch(error){
       console.log(error)
       return {error:"Não foi possivel deletar essa categoria "}
+    }
+  }
+
+  public async encerrarSolici(protocolo:number, justificativa:string,id:string){
+    try{
+    const  findByProtocolo =  await SolicitacaoRepository.findOneBy({protocolo:protocolo})
+    if(findByProtocolo == null){
+      return {error:"Não existe um solicitação com esse protocolo"}
+    }
+    const newSolici = new Solicitacao()
+    newSolici.fk_idagente = id
+    newSolici.status = 'Encerrado'
+    newSolici.justifictiva = justificativa
+
+    const updateSolici = await SolicitacaoRepository.update(findByProtocolo.idsolicitacao,newSolici)
+    console.log(updateSolici)
+    return {sucesso:"Solicitação foi encerrada"}
+    
+    }catch(error){
+      console.log(error)
+      return {error:"Não foi possivel alterar solicitação"}
     }
   }
 }

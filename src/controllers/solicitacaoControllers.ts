@@ -88,4 +88,25 @@ public async deleteSolicitacao (req: Request, res: Response){
   }
 }
 
+
+public async EncerramentoSolicitacao (req: Request, res: Response){
+  try{
+    const {id}  = (req as any).authUser
+    const {protocolo,justificativa} = req.body
+
+    if(!protocolo){
+      return res.status(404).send({error:"protocolo não foi informado"})
+    }
+    if(!justificativa){
+      return res.status(404).send({error:"justificativa não foi informado"})
+    }
+    const response = await SolicitacaoServices.Instance().encerrarSolici(protocolo,justificativa,id)
+    return res.status(200).send({data:response})
+   
+  }catch(err){
+    console.log(err)
+    res.status(400).end({erro:"Erro no interno"})
+  }
+}
+
 }

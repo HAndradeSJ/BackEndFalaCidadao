@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export interface SolicitacaoDto {
   idsolicitacao:string
+  protocolo:number
   fk_idusuario : string
   fk_idagente : string
   status: string
@@ -12,13 +13,13 @@ export interface SolicitacaoDto {
   bairro: string
   justifictiva: string
   pontoderef: string
-  confirmacao: string
   comentario: string
   fk_idcategoria:string
 }
 
 export const soliSchema = z.object({
   status: z.string().min(3),
+  protocolo: z.number(),
   imageUrl: z.string().min(7),
   descricao: z.string().min(6).max(255),
   logadouro: z.string().min(6).max(255),

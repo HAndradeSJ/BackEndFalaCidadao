@@ -9,10 +9,6 @@ import { Usuarios } from '../models/userModels';
 import { userDto } from '../dto/userDto';
 import { userRepository } from '../repostitory/userRepository';
 
-
-
-
-
 export class UserServices{
   private static instance: UserServices
   private constructor() {}
