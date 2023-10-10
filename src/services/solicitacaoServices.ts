@@ -127,4 +127,24 @@ export class SolicitacaoServices{
       return {error:"Não foi possivel alterar solicitação"}
     }
   }
+  public async recusarSolici(protocolo:number, justificativa:string,id:string){
+    try{
+    const  findByProtocolo =  await SolicitacaoRepository.findOneBy({protocolo:protocolo})
+    if(findByProtocolo == null){
+      return {error:"Não existe um solicitação com esse protocolo"}
+    }
+    const newSolici = new Solicitacao()
+    newSolici.fk_idagente = id
+    newSolici.status = 'Recusada'
+    newSolici.justifictiva = justificativa
+
+    const updateSolici = await SolicitacaoRepository.update(findByProtocolo.idsolicitacao,newSolici)
+    console.log(updateSolici)
+    return {sucesso:"Solicitação foi recusada"}
+    
+    }catch(error){
+      console.log(error)
+      return {error:"Não foi possivel alterar solicitação"}
+    }
+  }
 }
