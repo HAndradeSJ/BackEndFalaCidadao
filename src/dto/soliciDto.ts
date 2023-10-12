@@ -19,7 +19,7 @@ export interface SolicitacaoDto {
 
 export const soliSchema = z.object({
   status: z.string().min(3),
-  protocolo: z.number(),
+  protocolo: z.string(),
   imageUrl: z.string().min(7),
   descricao: z.string().min(6).max(255),
   logadouro: z.string().min(6).max(255),

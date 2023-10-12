@@ -9,7 +9,7 @@ export class Solicitacao {
     idsolicitacao: string
 
     @Column({nullable:true})
-    protocolo: number
+    chamado:string
 
     @Column()
     status: string

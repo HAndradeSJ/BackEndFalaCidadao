@@ -88,7 +88,23 @@ public async deleteSolicitacao (req: Request, res: Response){
   }
 }
 
+public async AndamentoSolicitacao (req: Request, res: Response){
+  try{
+    const {id}  = (req as any).authUser
+    const {chamado} = req.body
 
+    if(!chamado){
+      return res.status(404).send({error:"chamado não foi informado"})
+    }
+    
+    const response = await SolicitacaoServices.Instance().andamentoSolici(chamado)
+    return res.status(200).send({data:response})
+   
+  }catch(err){
+    console.log(err)
+    res.status(400).end({erro:"Erro no interno"})
+  }
+}
 public async EncerramentoSolicitacao (req: Request, res: Response){
   try{
     const {id}  = (req as any).authUser

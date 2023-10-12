@@ -6,6 +6,7 @@ import { Solicitacao } from "../models/solicitacaoModels"
 import { SolicitacaoRepository } from "../repostitory/solicitacaoRepository"
 
 
+
 export class SolicitacaoServices{
   private static instace :  SolicitacaoServices
   private constructor(){}
@@ -19,11 +20,15 @@ export class SolicitacaoServices{
 
   public async  SolicitacaoCreate(valid:SolicitacaoDto,id:string){
     try{
+      var year = new Date().getFullYear().toString();
+      var month = new Date().getMonth().toString();
+      var numchamada = year+month;
+      
       const getLastProtocolo = await SolicitacaoRepository.createQueryBuilder('Solicitacao').orderBy('Solicitacao.log_criacao','DESC').getOne();
       const newSolicitacao = new Solicitacao()
       newSolicitacao.idsolicitacao = v4()
       newSolicitacao.fk_idusuario = id
-      newSolicitacao.protocolo = getLastProtocolo == null ?  1 :getLastProtocolo?.protocolo + 1 
+      newSolicitacao.chamado = getLastProtocolo == null ? numchamada+1 :numchamada.concat(getLastProtocolo?.chamado + 1)
       newSolicitacao.status = ' Em Aberto'
       newSolicitacao.imagemUrl = valid.imagemUrl
       newSolicitacao.descricao = valid.descricao
@@ -76,7 +81,6 @@ export class SolicitacaoServices{
     }
   }
 
-
   public async getBySoliciId(id:string){
     try{
        const findById = await SolicitacaoRepository.findBy({fk_idusuario:id})
@@ -107,9 +111,29 @@ export class SolicitacaoServices{
     }
   }
 
-  public async encerrarSolici(protocolo:number, justificativa:string,id:string){
+  public async andamentoSolici(chamado:string){
     try{
-    const  findByProtocolo =  await SolicitacaoRepository.findOneBy({protocolo:protocolo})
+      const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:chamado})
+      if(findByProtocolo == null){
+        return {error:"Não existe um solicitação com esse protocolo"}
+      }
+      const newSolici = new Solicitacao()
+      
+      newSolici.status = 'Em andamento'
+     
+      const updateSolici = await SolicitacaoRepository.update(findByProtocolo.idsolicitacao,newSolici)
+      console.log(updateSolici)
+      return {sucesso:"Solicitação está em andamento"}
+      
+      }catch(error){
+        console.log(error)
+        return {error:"Não foi possivel alterar solicitação"}
+      }
+  }
+
+  public async encerrarSolici(protocolo:string, justificativa:string,id:string){
+    try{
+    const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:protocolo})
     if(findByProtocolo == null){
       return {error:"Não existe um solicitação com esse protocolo"}
     }
@@ -127,9 +151,10 @@ export class SolicitacaoServices{
       return {error:"Não foi possivel alterar solicitação"}
     }
   }
-  public async recusarSolici(protocolo:number, justificativa:string,id:string){
+
+  public async recusarSolici(protocolo:string, justificativa:string,id:string){
     try{
-    const  findByProtocolo =  await SolicitacaoRepository.findOneBy({protocolo:protocolo})
+    const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:protocolo})
     if(findByProtocolo == null){
       return {error:"Não existe um solicitação com esse protocolo"}
     }
