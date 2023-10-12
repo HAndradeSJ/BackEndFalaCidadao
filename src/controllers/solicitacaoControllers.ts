@@ -61,6 +61,7 @@ export class SolicitacaoController{
     }
   }
 
+
   public async getMySolicitacao(req:Request, res:Response){
     try{
       const {id}  = (req as any).authUser
@@ -70,6 +71,22 @@ export class SolicitacaoController{
     }catch(err){
       res.status(400).send({erro:"Ocorreu um erro ao pegar suas solicitacao"})
   }
+}
+
+
+public async getByChamado(req:Request, res:Response){
+  try{
+    const chamado = req.body
+
+    if(!chamado){
+      return res.status(400).send({ erro:"chamado não foi passado"})
+    }
+
+    const getChmado = await SolicitacaoServices.Instance().getByChamado(chamado)
+    return res.status(200).send({response:getChmado})
+  }catch(err){
+    res.status(400).send({erro:"Ocorreu um erro ao pegar sua solicitacao"})
+}
 }
 
 
@@ -105,6 +122,8 @@ public async AndamentoSolicitacao (req: Request, res: Response){
     res.status(400).end({erro:"Erro no interno"})
   }
 }
+
+
 public async EncerramentoSolicitacao (req: Request, res: Response){
   try{
     const {id}  = (req as any).authUser
@@ -124,6 +143,8 @@ public async EncerramentoSolicitacao (req: Request, res: Response){
     res.status(400).end({erro:"Erro no interno"})
   }
 }
+
+
 public async RecusarSolicitacao (req: Request, res: Response){
   try{
     const {id}  = (req as any).authUser

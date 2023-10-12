@@ -55,6 +55,7 @@ export class UserServices{
 
   public async loginUser(userEmail:string, userSenha:string){
     try{
+      var funcao = ''
       const hashDigest = sha256(userSenha)
       const senhaHash = Base64.stringify(hmacSHA512(hashDigest,'chavesecreta'))
       const findEmail = await userRepository.findOneBy({
@@ -74,9 +75,20 @@ export class UserServices{
         email: userEmail,
         senha: senhaHash
       })
+      if(findUser?.funcao == 'cidadao'){
+        funcao = 'cidadao'
+      }
+      else{
+        funcao ='agente'
+      }
+
       if(findUser){
         const token = jwt.sign({email:findUser.email,senha:findUser.senha,id:findUser.idusuario},'pao')
-        return token
+        const user = {
+          token:token,
+          funcao : funcao
+        }
+        return user
       }
       else{
         return {erro:"Conta inexistente"}

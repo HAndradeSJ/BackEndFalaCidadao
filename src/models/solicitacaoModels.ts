@@ -15,6 +15,12 @@ export class Solicitacao {
     status: string
 
     @Column()
+    data_abertura: string
+
+    @Column({nullable:true})
+    data_encerramento: string
+
+    @Column()
     imagemUrl: string
 
     @Column()

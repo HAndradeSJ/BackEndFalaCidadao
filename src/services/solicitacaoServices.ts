@@ -22,6 +22,8 @@ export class SolicitacaoServices{
     try{
       var year = new Date().getFullYear().toString();
       var month = new Date().getMonth().toString();
+      var day = new Date().getDay().toString();
+      var data_abertura = year + month + day
       var numchamada = year+month;
       
       const getLastProtocolo = await SolicitacaoRepository.createQueryBuilder('Solicitacao').orderBy('Solicitacao.log_criacao','DESC').getOne();
@@ -30,6 +32,7 @@ export class SolicitacaoServices{
       newSolicitacao.fk_idusuario = id
       newSolicitacao.chamado = getLastProtocolo == null ? numchamada+1 :numchamada.concat(getLastProtocolo?.chamado + 1)
       newSolicitacao.status = ' Em Aberto'
+      newSolicitacao.data_abertura = data_abertura;
       newSolicitacao.imagemUrl = valid.imagemUrl
       newSolicitacao.descricao = valid.descricao
       newSolicitacao.logradouro = valid.logradouro
@@ -46,6 +49,7 @@ export class SolicitacaoServices{
       return "Ocorreu um erro ao criar Solicitação"
     }
   }
+
     public async uploadPhoto(id:string,upload:any){
       try{
         const findSolici = await SolicitacaoRepository.findOneBy({fk_idusuario:id})
@@ -111,6 +115,7 @@ export class SolicitacaoServices{
     }
   }
 
+  
   public async andamentoSolici(chamado:string){
     try{
       const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:chamado})
@@ -133,7 +138,11 @@ export class SolicitacaoServices{
 
   public async encerrarSolici(protocolo:string, justificativa:string,id:string){
     try{
-    const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:protocolo})
+      var year = new Date().getFullYear().toString();
+      var month = new Date().getMonth().toString();
+      var day = new Date().getDay().toString();
+      var data_encerramento = year + month + day
+      const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:protocolo})
     if(findByProtocolo == null){
       return {error:"Não existe um solicitação com esse protocolo"}
     }
@@ -141,6 +150,7 @@ export class SolicitacaoServices{
     newSolici.fk_idagente = id
     newSolici.status = 'Encerrado'
     newSolici.justifictiva = justificativa
+    newSolici.data_encerramento = data_encerramento
 
     const updateSolici = await SolicitacaoRepository.update(findByProtocolo.idsolicitacao,newSolici)
     console.log(updateSolici)
@@ -152,9 +162,14 @@ export class SolicitacaoServices{
     }
   }
 
+
   public async recusarSolici(protocolo:string, justificativa:string,id:string){
     try{
-    const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:protocolo})
+      var year = new Date().getFullYear().toString();
+      var month = new Date().getMonth().toString();
+      var day = new Date().getDay().toString();
+      var data_encerramento = year + month + day
+      const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:protocolo})
     if(findByProtocolo == null){
       return {error:"Não existe um solicitação com esse protocolo"}
     }
@@ -162,6 +177,7 @@ export class SolicitacaoServices{
     newSolici.fk_idagente = id
     newSolici.status = 'Recusada'
     newSolici.justifictiva = justificativa
+    newSolici.data_encerramento = data_encerramento
 
     const updateSolici = await SolicitacaoRepository.update(findByProtocolo.idsolicitacao,newSolici)
     console.log(updateSolici)
@@ -172,4 +188,18 @@ export class SolicitacaoServices{
       return {error:"Não foi possivel alterar solicitação"}
     }
   }
+
+  public async getByChamado(chamado: string){
+    try{
+      const findbychamado = await SolicitacaoRepository.findOneBy({chamado:chamado})
+      if(findbychamado == null){
+        return {error:"não existe nenhuma solicitção com esse chamado "}
+      }
+      return findbychamado
+    }catch(error){
+        console.log(error)
+        return {error:"Não foi possivel pegar a solicitação por chamado "} 
+    }
+}
+
 }

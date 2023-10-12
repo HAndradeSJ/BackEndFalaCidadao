@@ -41,7 +41,7 @@ export class UserController {
         return res.status(404).send({err:"Não passou a senha "})
       }
       const authenticated = await UserServices.Instance().loginUser(email,senha)
-      return res.status(200).send({token: authenticated})
+      return res.status(200).send({response: authenticated})
 
     }catch(err){
       res.status(500).send(err)
