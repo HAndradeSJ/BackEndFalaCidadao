@@ -4,6 +4,7 @@ import { v4 } from "uuid"
 import { SolicitacaoDto } from "../dto/soliciDto"
 import { Solicitacao } from "../models/solicitacaoModels"
 import { SolicitacaoRepository } from "../repostitory/solicitacaoRepository"
+import { Usuarios } from "../models/userModels"
 
 
 
@@ -29,7 +30,8 @@ export class SolicitacaoServices{
       const getLastProtocolo = await SolicitacaoRepository.createQueryBuilder('Solicitacao').orderBy('Solicitacao.log_criacao','DESC').getOne();
       const newSolicitacao = new Solicitacao()
       newSolicitacao.idsolicitacao = v4()
-      newSolicitacao.fk_idusuario = id
+      newSolicitacao.user  = new Usuarios();  
+      newSolicitacao.user.idusuario = id;
       newSolicitacao.chamado = getLastProtocolo == null ? numchamada+1 :numchamada.concat(getLastProtocolo?.chamado + 1)
       newSolicitacao.status = ' Em Aberto'
       newSolicitacao.data_abertura = data_abertura;
@@ -52,7 +54,7 @@ export class SolicitacaoServices{
 
     public async uploadPhoto(id:string,upload:any){
       try{
-        const findSolici = await SolicitacaoRepository.findOneBy({fk_idusuario:id})
+        const findSolici = await SolicitacaoRepository.findOneBy({user: { idusuario: id}})
         if(findSolici){
           const newSolici = new Solicitacao()
           newSolici.imagemUrl = upload.path
@@ -87,13 +89,9 @@ export class SolicitacaoServices{
 
   public async getBySoliciId(id:string){
     try{
-       const findById = await SolicitacaoRepository.findBy({fk_idusuario:id})
-       if(findById == null){
-        return {erro:"Não a nenhuma solicitação "}
-       }
-       if(findById){
-        return findById
-       }
+      console.log(id)
+       return await SolicitacaoRepository.findBy({user: { idusuario: id}})
+       
     }catch(err){
       console.log(err)
       return {erro:"occoreu um erro ao pegar suas solicitacao"}

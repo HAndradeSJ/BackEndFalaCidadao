@@ -67,7 +67,7 @@ export class SolicitacaoController{
       const {id}  = (req as any).authUser
 
       const getBySolicitacao = await SolicitacaoServices.Instance().getBySoliciId(id)
-      return res.status(200).send({response:getBySolicitacao})
+      return res.status(200).json(getBySolicitacao);
     }catch(err){
       res.status(400).send({erro:"Ocorreu um erro ao pegar suas solicitacao"})
   }

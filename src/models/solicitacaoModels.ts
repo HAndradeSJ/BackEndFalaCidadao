@@ -50,8 +50,7 @@ export class Solicitacao {
     fk_idagente:string
 
     @ManyToOne(()=>Usuarios,{eager:true})
-    @JoinColumn({ name: 'fk_idusuario' })
-    fk_idusuario: string
+    user: Usuarios
 
 
     
