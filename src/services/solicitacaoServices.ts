@@ -24,8 +24,8 @@ export class SolicitacaoServices{
       var year = new Date().getFullYear().toString();
       var month = new Date().getMonth().toString();
       var day = new Date().getDay().toString();
-      var data_abertura = year + month + day
-      var numchamada = year+month;
+      var data_abertura = `${year}-${month}-${day}`
+      var numchamada = `${year}-${month}`;
       
       const getLastProtocolo = await SolicitacaoRepository.createQueryBuilder('Solicitacao').orderBy('Solicitacao.log_criacao','DESC').getOne();
       const newSolicitacao = new Solicitacao()
@@ -139,7 +139,8 @@ export class SolicitacaoServices{
       var year = new Date().getFullYear().toString();
       var month = new Date().getMonth().toString();
       var day = new Date().getDay().toString();
-      var data_encerramento = year + month + day
+      var data_encerramento =`${year}-${month}-${day}`
+
       const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:protocolo})
     if(findByProtocolo == null){
       return {error:"Não existe um solicitação com esse protocolo"}
@@ -166,7 +167,7 @@ export class SolicitacaoServices{
       var year = new Date().getFullYear().toString();
       var month = new Date().getMonth().toString();
       var day = new Date().getDay().toString();
-      var data_encerramento = year + month + day
+      var data_encerramento = `${year}-${month}-${day}`
       const  findByProtocolo =  await SolicitacaoRepository.findOneBy({chamado:protocolo})
     if(findByProtocolo == null){
       return {error:"Não existe um solicitação com esse protocolo"}
@@ -198,6 +199,23 @@ export class SolicitacaoServices{
         console.log(error)
         return {error:"Não foi possivel pegar a solicitação por chamado "} 
     }
+}
+public async getSoliciAgente(id:string){
+  try{
+    console.log(id)
+    const result = await SolicitacaoRepository
+    .createQueryBuilder('solicitacao')
+    .innerJoin('solicitacao.fk_idcategoria', 'categoria')
+    .innerJoin('categoria.fk_idsecretaria', 'secretaria')
+    .innerJoin('secretaria.fk_idusuario', 'usuarios')
+    .where('usuarios.idusuario = :userId', { userId: id })
+    .getMany();
+
+  return result;
+  }catch(error){
+      console.log(error)
+      return {error:"Não foi possivel pegar a solicitação do agente "} 
+  }
 }
 
 }

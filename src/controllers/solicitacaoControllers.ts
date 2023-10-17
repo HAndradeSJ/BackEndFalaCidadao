@@ -76,7 +76,7 @@ export class SolicitacaoController{
 
 public async getByChamado(req:Request, res:Response){
   try{
-    const chamado = req.body
+    const {chamado} = req.body
 
     if(!chamado){
       return res.status(400).send({ erro:"chamado não foi passado"})
@@ -127,15 +127,15 @@ public async AndamentoSolicitacao (req: Request, res: Response){
 public async EncerramentoSolicitacao (req: Request, res: Response){
   try{
     const {id}  = (req as any).authUser
-    const {protocolo,justificativa} = req.body
+    const {chamado,justificativa} = req.body
 
-    if(!protocolo){
+    if(!chamado){
       return res.status(404).send({error:"protocolo não foi informado"})
     }
     if(!justificativa){
       return res.status(404).send({error:"justificativa não foi informado"})
     }
-    const response = await SolicitacaoServices.Instance().encerrarSolici(protocolo,justificativa,id)
+    const response = await SolicitacaoServices.Instance().encerrarSolici(chamado,justificativa,id)
     return res.status(200).send({data:response})
    
   }catch(err){
@@ -148,16 +148,28 @@ public async EncerramentoSolicitacao (req: Request, res: Response){
 public async RecusarSolicitacao (req: Request, res: Response){
   try{
     const {id}  = (req as any).authUser
-    const {protocolo,justificativa} = req.body
+    const {chamado,justificativa} = req.body
 
-    if(!protocolo){
+    if(!chamado){
       return res.status(404).send({error:"protocolo não foi informado"})
     }
     if(!justificativa){
       return res.status(404).send({error:"justificativa não foi informado"})
     }
-    const response = await SolicitacaoServices.Instance().recusarSolici(protocolo,justificativa,id)
+    const response = await SolicitacaoServices.Instance().recusarSolici(chamado,justificativa,id)
     return res.status(200).send({data:response})
+   
+  }catch(err){
+    console.log(err)
+    res.status(400).send({erro:"Erro no interno"})
+  }
+}
+public async getSolicitacaoAgente (req: Request, res: Response){
+  try{
+    const {id}  = (req as any).authUser
+
+    const response = await SolicitacaoServices.Instance().getSoliciAgente(id)
+    return res.status(200).json(response)
    
   }catch(err){
     console.log(err)
