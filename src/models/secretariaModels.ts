@@ -18,7 +18,7 @@ export class Secretaria {
     @Column()
     descricao: string
 
-    @OneToOne(()=>Usuarios,{eager:true})
+    @OneToOne(()=>Usuarios,(Usuarios)=>Usuarios.idusuario,{eager:true})
     @JoinColumn({ name: 'fk_idusuario' })
     fk_idusuario: string
 

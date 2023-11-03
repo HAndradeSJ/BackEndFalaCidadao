@@ -22,6 +22,7 @@ export class UserServices{
 
   public async singUp(valid:userDto){
     try{
+      console.log('oi')
       const findEmail = await userRepository.findOneBy({email:valid.email})
       
       if(findEmail?.email== valid.email){

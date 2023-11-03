@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from "typeorm"
+import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn,  ManyToOne, ManyToMany } from "typeorm"
 import { Secretaria } from "./secretariaModels";
 
 @Entity()
@@ -9,8 +9,8 @@ export class Categoria {
     @Column()
     categoria: string
 
-    @OneToOne(()=> Secretaria,{eager: true})
-    @JoinColumn({ name: 'fk_idsecretaria' })
+    @ManyToOne(()=> Secretaria,(secretaria)=> secretaria.idsecretaria,{eager: true})
+    @JoinColumn({ name: 'fk_idsecretaria', referencedColumnName:'idsecretaria' })
     fk_idsecretaria: string
 
 

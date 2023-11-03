@@ -43,7 +43,7 @@ export class SolicitacaoController{
 
        const savephoto =  await SolicitacaoServices.Instance().uploadPhoto(id,file)
        console.log(savephoto)
-       return res.status(200).send({response:"imagme registrada com sucesso !"})
+       return res.status(200).send({response:savephoto})
 
     }catch(err){
       console.log(err)

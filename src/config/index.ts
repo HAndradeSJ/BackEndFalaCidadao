@@ -7,12 +7,15 @@ import UserRoutes from "../routes/userRoutes";
 import AuthRoutes from "../routes/authRoutes";
 import SoliciRoutes from "../routes/soliciRoutes";
 import SecreRoutes from "../routes/secreRoutes";
+import * as path from 'path';
 import CatRoutes from "../routes/catRoutes";
 import { VerifyToken } from "./verifyToken";
 
+
 const app : Express = express();
 app.use(cor());
-app.use(express.json());
+app.use(express.json());  
+app.use("/imagens",express.static(path.join(__dirname,'picture')));
 app.use(morgan("combined"));
 app.use('/user', VerifyToken)
 app.use('/solicitacao', VerifyToken)

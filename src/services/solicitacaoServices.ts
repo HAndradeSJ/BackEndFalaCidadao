@@ -8,6 +8,7 @@ import { Usuarios } from "../models/userModels"
 
 
 
+
 export class SolicitacaoServices{
   private static instace :  SolicitacaoServices
   private constructor(){}
@@ -25,14 +26,18 @@ export class SolicitacaoServices{
       var month = new Date().getMonth().toString();
       var day = new Date().getDay().toString();
       var data_abertura = `${year}-${month}-${day}`
-      var numchamada = `${year}-${month}`;
+      var numchamada = `${year}/${month}-`;
       
       const getLastProtocolo = await SolicitacaoRepository.createQueryBuilder('Solicitacao').orderBy('Solicitacao.log_criacao','DESC').getOne();
+      console.log(getLastProtocolo)
+     const order =`${getLastProtocolo?.chamado.slice(-5)}`
+     const number = parseInt(order)+1
+     console.log(number)
       const newSolicitacao = new Solicitacao()
       newSolicitacao.idsolicitacao = v4()
       newSolicitacao.user  = new Usuarios();  
       newSolicitacao.user.idusuario = id;
-      newSolicitacao.chamado = getLastProtocolo == null ? numchamada+1 :numchamada.concat(getLastProtocolo?.chamado + 1)
+      newSolicitacao.chamado = getLastProtocolo == null ? numchamada+1 :numchamada.concat(`${number}`)
       newSolicitacao.status = ' Em Aberto'
       newSolicitacao.data_abertura = data_abertura;
       newSolicitacao.imagemUrl = valid.imagemUrl
@@ -54,23 +59,9 @@ export class SolicitacaoServices{
 
     public async uploadPhoto(id:string,upload:any){
       try{
-        const findSolici = await SolicitacaoRepository.findOneBy({user: { idusuario: id}})
-        if(findSolici){
-          const newSolici = new Solicitacao()
-          newSolici.imagemUrl = upload.path
+        console.log(upload)
+         return upload.filename
           
-          const uploadImage = await SolicitacaoRepository.update(findSolici.idsolicitacao,newSolici)
-  
-          if(uploadImage){
-            return {response:"Imagem salva com sucesso !"}
-          }
-          else{
-            return {erro:"occoreu um erro ao salvar no upload "}
-          }
-  
-        }else{
-          return 'Solicitação  não foi encontrada'
-        }
       }catch(error){
         console.log(error)
         return {error:"Não foi pegar todos Usuarios"}

@@ -30,6 +30,7 @@ export class CategoriaController{
 
   public async CategoriaGetAll(req: Request, res: Response){
     try{
+      console.log('VAMO')
       const getAll = await CategoriaServices.Instance().GetAll()
       return res.status(200).send({response:getAll})
     }catch(err){

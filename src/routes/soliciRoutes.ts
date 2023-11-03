@@ -6,7 +6,7 @@ import { uploadSolici } from "../config/multer";
 const soliciRouter = Router()
 
 soliciRouter.post('/create',SolicitacaoController.Instance().SolicitacaoCreate)
-soliciRouter.put('/upload/image',uploadSolici.single('file'),SolicitacaoController.Instance().SolicitacaoUpload)
+soliciRouter.post('/upload/image',uploadSolici.single('file'),SolicitacaoController.Instance().SolicitacaoUpload)
 soliciRouter.get('/getall/cidadao',SolicitacaoController.Instance().getAllsolicitacao)
 soliciRouter.get('/getbychamado',SolicitacaoController.Instance().getByChamado)
 soliciRouter.get('/getbysecretaria',SolicitacaoController.Instance().getByChamado)
