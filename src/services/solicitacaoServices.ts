@@ -31,7 +31,7 @@ export class SolicitacaoServices{
       const getLastProtocolo = await SolicitacaoRepository.createQueryBuilder('Solicitacao').orderBy('Solicitacao.log_criacao','DESC').getOne();
       console.log(getLastProtocolo)
      const order =`${getLastProtocolo?.chamado.slice(-5)}`
-     const number = parseInt(order)+1
+     const number = parseInt(order+1)
      console.log(number)
       const newSolicitacao = new Solicitacao()
       newSolicitacao.idsolicitacao = v4()
