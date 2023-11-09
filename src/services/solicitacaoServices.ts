@@ -22,6 +22,7 @@ export class SolicitacaoServices{
 
   public async  SolicitacaoCreate(valid:SolicitacaoDto,id:string){
     try{
+      console.log("estou aqui ")
       var year = new Date().getFullYear().toString();
       var month = new Date().getMonth().toString();
       var day = new Date().getDay().toString();
@@ -31,14 +32,13 @@ export class SolicitacaoServices{
       const getLastProtocolo = await SolicitacaoRepository.createQueryBuilder('Solicitacao').orderBy('Solicitacao.log_criacao','DESC').getOne();
       console.log(getLastProtocolo)
      const order =`${getLastProtocolo?.chamado.slice(-5)}`
-     const number = parseInt(order+1)
-     console.log(number)
+     const number = parseInt(order +  1)
       const newSolicitacao = new Solicitacao()
       newSolicitacao.idsolicitacao = v4()
       newSolicitacao.user  = new Usuarios();  
       newSolicitacao.user.idusuario = id;
       newSolicitacao.chamado = getLastProtocolo == null ? numchamada+1 :numchamada.concat(`${number}`)
-      newSolicitacao.status = ' Em Aberto'
+      newSolicitacao.status = 'Em Aberto'
       newSolicitacao.data_abertura = data_abertura;
       newSolicitacao.imagemUrl = valid.imagemUrl
       newSolicitacao.descricao = valid.descricao
@@ -49,6 +49,7 @@ export class SolicitacaoServices{
       newSolicitacao.fk_idcategoria = valid.fk_idcategoria
 
       const save = await SolicitacaoRepository.save(newSolicitacao)
+      console.log(save, "vamo")
       return save
     
     }catch(err){

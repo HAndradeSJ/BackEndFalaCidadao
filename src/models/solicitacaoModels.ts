@@ -41,7 +41,7 @@ export class Solicitacao {
     @Column({nullable:true})
     justifictiva: string
     
-    @OneToMany(()=>Categoria,(categoria)=> categoria.idcategoria,{nullable: false, eager: true})
+    @ManyToOne(()=>Categoria,(categoria)=> categoria.idcategoria,{nullable: false, eager: true})
     @JoinColumn({ name: 'fk_idcategoria', referencedColumnName:'idcategoria' })
     fk_idcategoria: string
 
