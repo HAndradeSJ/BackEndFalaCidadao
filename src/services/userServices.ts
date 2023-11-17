@@ -89,6 +89,7 @@ export class UserServices{
           token:token,
           funcao : funcao
         }
+        console.log(user)
         return user
       }
       else{
