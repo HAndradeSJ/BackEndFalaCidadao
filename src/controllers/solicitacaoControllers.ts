@@ -115,7 +115,7 @@ public async AndamentoSolicitacao (req: Request, res: Response){
       return res.status(404).send({error:"chamado não foi informado"})
     }
     
-    const response = await SolicitacaoServices.Instance().andamentoSolici(chamado)
+    const response = await SolicitacaoServices.Instance().andamentoSolici(chamado,id)
     return res.status(200).send({data:response})
    
   }catch(err){
