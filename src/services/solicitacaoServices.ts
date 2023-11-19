@@ -100,14 +100,15 @@ export class SolicitacaoServices {
     }
   }
 
-  public async andamentoSolici(chamado: string) {
+  public async andamentoSolici(chamado: string,id:string) {
     try {
       const findByProtocolo = await SolicitacaoRepository.findOneBy({ chamado: chamado })
       if (findByProtocolo == null) {
         return { error: 'Não existe um solicitação com esse protocolo' }
       }
       const newSolici = new Solicitacao()
-
+      newSolici.fk_idagente = new Usuarios()
+      newSolici.fk_idagente.idusuario = id
       newSolici.status = 'Em andamento'
 
       const updateSolici = await SolicitacaoRepository.update(findByProtocolo.idsolicitacao, newSolici)
@@ -132,7 +133,8 @@ export class SolicitacaoServices {
         return { error: 'Não existe um solicitação com esse protocolo' }
       }
       const newSolici = new Solicitacao()
-      newSolici.fk_idagente = id
+      newSolici.fk_idagente = new Usuarios()
+      newSolici.fk_idagente.idusuario = id 
       newSolici.status = 'Encerrado'
       newSolici.justifictiva = justificativa
       newSolici.data_encerramento = data_encerramento
@@ -157,8 +159,8 @@ export class SolicitacaoServices {
       if (findByProtocolo == null) {
         return { error: 'Não existe um solicitação com esse protocolo' }
       }
+      console.log('foi '  )
       const newSolici = new Solicitacao()
-      newSolici.fk_idagente = id
       newSolici.status = 'Recusada'
       newSolici.justifictiva = justificativa
       newSolici.data_encerramento = data_encerramento
@@ -188,6 +190,7 @@ export class SolicitacaoServices {
     try {
       console.log(id)
       const result = await SolicitacaoRepository.createQueryBuilder('solicitacao')
+      // .innerJoin('solicitacao.fk_idusuarios', 'usuarios') 
         .innerJoin('solicitacao.fk_idcategoria', 'categoria')
         .innerJoin('categoria.fk_idsecretaria', 'secretaria')
         .innerJoin('secretaria.fk_idusuario', 'usuarios')
@@ -195,6 +198,15 @@ export class SolicitacaoServices {
         .getMany()
 
       return result
+    } catch (error) {
+      console.log(error)
+      return { error: 'Não foi possivel pegar a solicitação do agente ' }
+    }
+  }
+  public async mySoliciAgente(id: string) {
+    try {
+      console.log(id)
+      return await SolicitacaoRepository.findBy({ fk_idagente : { idusuario: id } })
     } catch (error) {
       console.log(error)
       return { error: 'Não foi possivel pegar a solicitação do agente ' }

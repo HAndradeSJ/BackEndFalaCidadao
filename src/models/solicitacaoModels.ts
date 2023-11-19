@@ -45,9 +45,9 @@ export class Solicitacao {
     @JoinColumn({ name: 'fk_idcategoria', referencedColumnName:'idcategoria' })
     fk_idcategoria: string
 
-    @ManyToOne(()=>Usuarios,{nullable:true, eager: true})
-    @JoinColumn({ name: 'fk_idagente'})
-    fk_idagente:string
+    @ManyToOne(()=>Usuarios,(Usuarios)=> Usuarios.idusuario,{nullable:true, eager: true})
+    @JoinColumn({ name: 'fk_idagente', referencedColumnName:'idusuario'})
+    fk_idagente: Usuarios
 
     @ManyToOne(()=>Usuarios,{eager:true})
     user: Usuarios
