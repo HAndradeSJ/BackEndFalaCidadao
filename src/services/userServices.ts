@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken'
 import { Usuarios } from '../models/userModels';
 import { userDto } from '../dto/userDto';
 import { userRepository } from '../repostitory/userRepository';
+import { OAuth2Client } from 'google-auth-library';
 
 export class UserServices{
   private static instance: UserServices
@@ -130,7 +131,57 @@ export class UserServices{
     }
   }
 
+  public async  loginGoogle(req:any, res:any){
+    try{
+      const client = new OAuth2Client();
+      const ticket = await client.verifyIdToken({
+        idToken: req.body.token,
+        audience:"792842872794-9j1lbeb0na81q1i974p1kec8eemrt12h.apps.googleusercontent.com",
+ 
+    });
+    const payload = ticket.getPayload();
+    const googleId = payload?.sub;
+    const ImageUrl = payload?.picture;
+    const email = payload?.email;
 
+    if(!email) {
+      res.status(401).send();
+      return;
+  }
+  const foundUser = await userRepository.findOneBy({ email });
+  if (foundUser) {
+    foundUser.auth = req.body.fcmToken;
+    foundUser.idGoogle = googleId || '';
+    foundUser.avatarUrl =  ImageUrl || '';
+    await userRepository.save(foundUser);
+     }
+    
+      var funcao =''
+      if(foundUser?.funcao == 'cidadao'){
+        funcao = 'cidadao'
+      }
+      else{
+        funcao ='agente'
+      }
+      
+      if(foundUser){
+        const token = jwt.sign({email:foundUser.email,senha:foundUser.senha,id:foundUser.idusuario},'pao')
+        const user = {
+          token:token,
+          funcao : funcao
+        }
+        console.log(user)
+        return user
+      }
+      else{
+        return {erro:"Conta inexistente"}
+      }
+        
+    }catch(error){
+      console.log(error)
+      return {error:"Não foi possivel logar "}
+    }
+  }
 
   public async resetPassword(email : string){
     try{

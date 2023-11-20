@@ -30,7 +30,7 @@ export class UserController {
     }
   }
 
-
+  
   public async loginUser(req: Request, res: Response){
     try{
       const {email,senha} =req.body
@@ -41,6 +41,17 @@ export class UserController {
         return res.status(404).send({err:"Não passou a senha "})
       }
       const authenticated = await UserServices.Instance().loginUser(email,senha)
+      return res.status(200).send({response: authenticated})
+
+    }catch(err){
+      res.status(500).send(err)
+      console.log(`ocorreu  um erro no controllers de singUp ${err}`)
+    }
+  }
+
+  public async loginGoogle(req: Request, res: Response){
+    try{
+      const authenticated = await UserServices.Instance().loginGoogle(req,res)
       return res.status(200).send({response: authenticated})
 
     }catch(err){

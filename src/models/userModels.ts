@@ -4,6 +4,9 @@ export class Usuarios {
     @PrimaryColumn()
     idusuario: string
 
+    @Column({nullable:true})
+    idGoogle:string
+
     @Column()
     nome: string
 
