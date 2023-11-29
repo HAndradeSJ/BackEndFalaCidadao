@@ -143,9 +143,8 @@ export class UserServices{
     const googleId = payload?.sub;
     const ImageUrl = payload?.picture;
     const email = payload?.email;
-
     if(!email) {
-      res.status(401).send();
+      res.status(401).send("Conta do Google não existe");
       return;
   }
   const foundUser = await userRepository.findOneBy({ email });
@@ -154,6 +153,10 @@ export class UserServices{
     foundUser.idGoogle = googleId || '';
     foundUser.avatarUrl =  ImageUrl || '';
     await userRepository.save(foundUser);
+     }
+     if(foundUser == null){
+      res.status(401).send("Usúario não existe");
+      return;
      }
     
       var funcao =''

@@ -30,6 +30,24 @@ export class UserController {
     }
   }
 
+  public async singUpGoogle(req:Request, res:Response){
+    try{
+      const file = req.file
+      console.log(file)
+      const dataUser = req.body
+      if(!dataUser){
+        return res.status(404).send({err:"ocorreu um erro nos dados do usuario"})
+      }
+      const saveUser = await UserServices.Instance().singUp(dataUser)
+      return res.status(200).send({response: saveUser})
+
+    }catch(err){
+      res.status(500).send(err)
+      console.log(`ocorreu um erro no controllers de singUp ${err}`)
+    }
+  }
+
+  
   
   public async loginUser(req: Request, res: Response){
     try{
